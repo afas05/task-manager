@@ -1,0 +1,24 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DB_URL")
+}
+
+model Task {
+  id      Int      @id @default(autoincrement())
+  title   String
+  created DateTime
+  deleted Int
+}
+
+model SubTasks {
+  id      Int      @id @default(autoincrement())
+  title   String
+  created DateTime
+  done    Int
+  deleted Int
+}

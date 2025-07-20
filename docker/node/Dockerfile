@@ -1,0 +1,3 @@
+FROM node:24
+WORKDIR /var/www/
+ENV NUXT_HOST=0.0.0.0
