@@ -1,2 +1,21 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
+
+@theme default {
+    --color-mintgreen-50: #f6fae7;
+    --color-mintgreen-100: #eef6dd;
+    --color-mintgreen-200: #e0f0cc;
+    --color-mintgreen-300: #d1ebbc;
+    --color-mintgreen-400: #c2e6ab;
+    --color-mintgreen-500: #a6e3a1; /* Your base color */
+    --color-mintgreen-600: #8dd993;
+    --color-mintgreen-700: #7bb781;
+    --color-mintgreen-800: #64956d;
+    --color-mintgreen-900: #537d5c;
+    --color-mintgreen-950: #2d4332;
+}
+
+:root {
+    --ui-mintgreen: var(--color-mintgreen-500);
+}
+

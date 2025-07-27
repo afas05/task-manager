@@ -1,11 +1,12 @@
-import { prisma } from '../utils/prisma'
+import { prisma } from '../../utils/prisma'
 
-interface CreateTaskRequestBody {
+interface CreateSubTaskRequestBody {
     title: string;
+    task_id: number;
 }
 
 export default defineEventHandler(async (event) => {
-    const body = await readBody(event) as CreateTaskRequestBody;
+    const body = await readBody(event) as CreateSubTaskRequestBody;
 
     if (!body || body.title.trim() === '') {
         throw createError({
@@ -15,9 +16,10 @@ export default defineEventHandler(async (event) => {
     }
 
     try {
-        return await prisma.task.create({
+        return await prisma.subTasks.create({
             data: {
                 title: body.title,
+                task_id: body.task_id,
                 created: new Date(),
             }
         });

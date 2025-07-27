@@ -11,14 +11,17 @@ datasource db {
 model Task {
   id      Int      @id @default(autoincrement())
   title   String
-  created DateTime
-  deleted Int
+  order   Int      @default(0)
+  created DateTime @default(now())
+  deleted Boolean  @default(false)
 }
 
 model SubTasks {
   id      Int      @id @default(autoincrement())
+  task_id Int
   title   String
-  created DateTime
-  done    Int
-  deleted Int
+  order   Int      @default(0)
+  created DateTime @default(now())
+  done    Boolean  @default(false)
+  deleted Boolean  @default(false)
 }
