@@ -3,7 +3,6 @@ import type { Task } from "~~/types/task";
 import { ref, defineEmits } from 'vue';
 import draggable from "vuedraggable";
 
-const selectedTaskIndex = ref<number>(0);
 const selectedTask = ref<Task | undefined>(undefined);
 const emit = defineEmits(['task-selected']);
 const newTaskTitle = ref<string>('');
@@ -26,7 +25,6 @@ async function addTask() {
 }
 
 function selectTask(index: number) {
-  selectedTaskIndex.value = index;
   selectedTask.value = tasks.value![index];
   emit('task-selected', selectedTask.value);
 }
@@ -88,7 +86,7 @@ async function deleteTask(id: number) {
         <template #item="{ element, index }">
           <li
             class="flex items-center justify-between content-center gap-2 p-3 rounded-lg cursor-pointer transition-colors bg-[#1e1e2e] text-[#a6adc8] hover:bg-[#45475a] hover:text-[#cdd6f4]"
-            :class="{'bg-[#45475a]': selectedTask.id === element.id}"
+            :class="{'bg-[#45475a]': selectedTask?.id === element.id}"
             @click.prevent="selectTask(index)"
           >
             <div class="flex items-center gap-2">
