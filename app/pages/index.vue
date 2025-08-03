@@ -2,11 +2,6 @@
 import type { Task } from "~~/types/task";
 import { ref } from 'vue';
 
-definePageMeta({
-  name: "Home",
-  layout: "default",
-})
-
 const currentSelectedTask = ref<Task | undefined>(undefined);
 
 async function selectTask(task: Task) {
