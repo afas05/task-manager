@@ -2,10 +2,21 @@
 import type { Task } from "~~/types/task";
 import { ref } from 'vue';
 
+definePageMeta({
+  middleware: ['auth'],
+})
+
 const currentSelectedTask = ref<Task | undefined>(undefined);
 
 async function selectTask(task: Task) {
   currentSelectedTask.value = task;
+}
+
+const { user, clear: clearSession } = useUserSession()
+
+async function logout() {
+  await clearSession()
+  await navigateTo('/login')
 }
 </script>
 

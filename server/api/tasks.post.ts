@@ -14,10 +14,13 @@ export default defineEventHandler(async (event) => {
         });
     }
 
+    const { user } = await requireUserSession(event);
+
     try {
         return await prisma.task.create({
             data: {
                 title: body.title,
+                user_id: user.id,
                 created: new Date(),
             }
         });

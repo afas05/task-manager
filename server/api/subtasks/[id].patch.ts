@@ -11,8 +11,6 @@ export default defineEventHandler(async (event) => {
 
     const body = await readBody(event) as EditSubTaskRequestBody;
 
-    console.log('vody', body)
-
     return await prisma.subTasks.update(
         {
             where: {

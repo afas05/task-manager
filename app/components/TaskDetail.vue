@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref, defineProps } from 'vue';
 import type { SubTask } from "~~/types/SubTask";
 import type { Task } from "~~/types/task";
 import draggable from "vuedraggable";
@@ -17,7 +17,7 @@ const {data:subTasks, refresh } = await useAsyncData<SubTask[]>(
     () => $fetch("/api/subtasks/" + task.id),
     { deep: true }
 );
-const newSubTaskTitle = ref('')
+const newSubTaskTitle = ref('');
 
 async function addSubTask() {
   const title = newSubTaskTitle.value.trim();
@@ -35,7 +35,6 @@ async function addSubTask() {
     refresh();
     newSubTaskTitle.value = ''
   });
-
 }
 
 async function changeSubTaskStatus(id: number) {
