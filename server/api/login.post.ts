@@ -40,7 +40,7 @@ export default defineEventHandler(async (event) => {
     } else {
         throw createError({
             statusCode: 404,
-            statusMessage: 'User does not exist.',
+            statusMessage: 'Wrong credentials.',
         });
     }
 });

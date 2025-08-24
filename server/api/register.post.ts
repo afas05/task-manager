@@ -19,19 +19,17 @@ export default defineEventHandler(async (event) => {
 
     try {
         const password = await bcrypt.hash(body.password, 4);
-        const user = await prisma.user.create({
+        return await prisma.user.create({
             data: {
                 email: body.email,
                 password: password,
                 name: body.name
             }
         });
-
-        return user;
     } catch (error) {
         throw createError({
             statusCode: 404,
-            statusMessage: 'User does not exist.',
+            statusMessage: 'Cannot create user with this email address.',
         });
     }
 });
