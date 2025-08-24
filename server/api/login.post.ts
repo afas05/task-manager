@@ -15,28 +15,29 @@ export default defineEventHandler(async (event) => {
         });
     }
 
-    try {
-        const user = await prisma.user.findUnique({
-            where: {
-                email: body.email,
-            }
+    const user = await prisma.user.findUnique({
+        where: {
+            email: body.email,
+        }
+    });
+
+    if (!user) {
+        throw createError({
+            statusCode: 404,
+            statusMessage: 'User does not exist.',
         });
+    }
 
-        if (!user) {
-            return;
-        }
+    const passwordMatch = await bcrypt.compare(body.password, user.password);
 
-        const passwordMatch = await bcrypt.compare(body.password, user.password);
-
-        if (passwordMatch) {
-            await setUserSession(event, {
-                user: {
-                    id: user.id,
-                    name: user.name,
-                }
-            })
-        }
-    } catch (error) {
+    if (passwordMatch) {
+        await setUserSession(event, {
+            user: {
+                id: user.id,
+                name: user.name,
+            }
+        })
+    } else {
         throw createError({
             statusCode: 404,
             statusMessage: 'User does not exist.',

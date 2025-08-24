@@ -22,8 +22,8 @@ async function login() {
   })
   .then(async () => {
     loading.value = false;
-    await refreshSession()
-    await navigateTo('/')
+    await refreshSession();
+    await navigateTo('/');
   })
   .catch((err) => {
     error.value = err.response.statusText;
