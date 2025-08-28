@@ -4,6 +4,13 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ['@prisma/nuxt', '@nuxt/ui', 'nuxt-auth-utils'],
   css: ['~/assets/css/main.css'],
+  app: {
+    head: {
+      htmlAttrs: {
+        class: 'dark'
+      }
+    }
+  },
   ui: {
     theme: {
       colors: [

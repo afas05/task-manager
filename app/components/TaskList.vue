@@ -6,7 +6,7 @@ import draggable from "vuedraggable";
 const selectedTask = ref<Task | undefined>(undefined);
 const emit = defineEmits(['task-selected']);
 const newTaskTitle = ref<string>('');
-const {data:tasks, refresh} = await useAsyncData<Task[]>(() => $fetch("/api/tasks"));
+const {data:tasks, refresh} = await useAsyncData<Task[]>('tasks', () => $fetch<Task[]>("/api/tasks"));
 
 async function addTask() {
   const title = newTaskTitle.value.trim();
