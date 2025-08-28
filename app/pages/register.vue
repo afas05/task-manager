@@ -8,13 +8,34 @@ definePageMeta({
 const formData = reactive({
   email: '',
   password: '',
+  confirm_password: '',
   name: '',
+});
+
+const state = reactive({
+  email: false,
+  password: false,
+  confirm_password: false,
+  name: false,
 });
 
 const loading = ref<boolean>(false);
 const error = ref<String | null>(null);
 
+// TODO: replace with full form validation
+function validateForm(): boolean {
+  if (formData.password !== formData.confirm_password) {
+    state.confirm_password = true;
+    return false;
+  } else {
+    return true;
+  }
+}
+
 async function register() {
+  if (!validateForm()) {
+    return;
+  }
   loading.value = true;
   $fetch('/api/register', {
     method: 'POST',
@@ -49,7 +70,7 @@ async function register() {
           for="username"
           class="block text-sm font-medium text-[#a6adc8] mb-1"
       >
-        Username
+        Name
       </label>
       <input
         id="username"
@@ -102,11 +123,12 @@ async function register() {
       <input
         id="confirmPassword"
         type="password"
-        v-model="formData.password"
+        v-model="formData.confirm_password"
         class="w-full px-4 py-2 bg-[#1e1e2e] border border-[#45475a] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#cba6f7] text-[#cdd6f4]"
         placeholder="••••••••"
         required
       />
+      <span v-if="state.confirm_password" class="block text-sm font-medium text-[#f38ba8] px-2">Passwords must match</span>
     </div>
     <UButton
         type="submit"
