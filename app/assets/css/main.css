@@ -17,5 +17,6 @@
 
 :root {
     --ui-mintgreen: var(--color-mintgreen-500);
+    --ui-bg: #1e1e2e;
 }
 
