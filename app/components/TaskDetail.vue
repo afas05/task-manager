@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { computed, ref, defineProps } from 'vue';
+import {computed, ref, defineProps, defineEmits} from 'vue';
 import type { SubTask } from "~~/types/SubTask";
 import type { Task } from "~~/types/task";
 import draggable from "vuedraggable";
 
+const emit = defineEmits(['update-complete']);
 const { task } = defineProps(
     {
       task: {
@@ -50,6 +51,8 @@ async function changeSubTaskStatus(id: number) {
         done: subTasks.value[index].done
       }
     });
+
+    emit('update-complete', task.id, completionPercentage.value);
   }
 }
 
@@ -97,7 +100,8 @@ const completedSubtasks = computed(() => {
   return completed;
 })
 const completionPercentage = computed(() => {
-  return completedSubtasks.value === 0 ? 0 : (completedSubtasks.value / subTasks.value!.length) * 100;
+  const result = completedSubtasks.value === 0 ? 0 : (completedSubtasks.value / subTasks.value!.length) * 100;
+  return Math.round(result);
 })
 
 watch(() => task, () => {
@@ -117,7 +121,7 @@ watch(() => task, () => {
         {{ completedSubtasks }} of {{ subTasks.length }} subtasks completed
       </span>
       <span class="text-[#a6e3a1]">
-        {{ Math.round(completionPercentage) }}%
+        {{ completionPercentage }}%
       </span>
     </div>
     <div class="w-full bg-[#1e1e2e] rounded-full h-2">

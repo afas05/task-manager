@@ -6,4 +6,5 @@ export interface Task {
     title: string;
     created: Date;
     deleted: Boolean;
+    percentage: number;
 }

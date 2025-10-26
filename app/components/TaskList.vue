@@ -49,6 +49,18 @@ async function deleteTask(id: number) {
     refresh();
   })
 }
+
+function updateComplete(id: number, value: number) {
+  if (!tasks.value) { return; }
+
+  const index = tasks.value.findIndex(task => task.id === id);
+
+  if (!index || !tasks.value[index]) { return; }
+  const updated: Task[] = [...tasks.value];
+  updated[index] = { ...updated[index], percentage: value }
+  tasks.value = updated
+}
+defineExpose({ updateComplete });
 </script>
 
 <template>
@@ -93,8 +105,17 @@ async function deleteTask(id: number) {
               <UIcon name="uil:draggabledots" class="size-4 drag-handle" />
               {{ element.title }}
             </div>
-            <div class="flex items-center hover:bg-[#45475a] rounded transition-colors p-1">
-              <UIcon name="ic:baseline-delete-outline" class="size-5 text-[#f38ba8] cursor-pointer" @click="deleteTask(element.id)"/>
+            <div class="flex items-center gap-2">
+              <div
+                  class="flex items-center gap-1 px-2 py-1 bg-[#45475a] rounded text-xs"
+                  :class="{'text-[#cdd6f4]': element.percentage < 100, 'text-[#a6e3a1]': element.percentage >= 100 }"
+              >
+                <UIcon name="ep:check" class="size-3" />
+                {{ element.percentage }}%
+              </div>
+              <div class="flex items-center hover:bg-[#45475a] rounded transition-colors p-1">
+                <UIcon name="ic:baseline-delete-outline" class="size-5 text-[#f38ba8] cursor-pointer" @click="deleteTask(element.id)"/>
+              </div>
             </div>
           </li>
         </template>
