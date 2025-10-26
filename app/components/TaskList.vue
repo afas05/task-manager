@@ -6,7 +6,12 @@ import draggable from "vuedraggable";
 const selectedTask = ref<Task | undefined>(undefined);
 const emit = defineEmits(['task-selected']);
 const newTaskTitle = ref<string>('');
-const {data:tasks, refresh} = await useAsyncData<Task[]>('tasks', () => $fetch<Task[]>("/api/tasks"));
+
+const { loggedIn } = useUserSession();
+const {data:tasks, refresh} = await useAsyncData<Task[]>('tasks', () => $fetch<Task[]>("/api/tasks"), {
+  default: () => [],
+  server: false
+});
 
 async function addTask() {
   const title = newTaskTitle.value.trim();
@@ -55,9 +60,9 @@ function updateComplete(id: number, value: number) {
 
   const index = tasks.value.findIndex(task => task.id === id);
 
-  if (!index || !tasks.value[index]) { return; }
+  if (index === -1 || !tasks.value[index]) { return; }
   const updated: Task[] = [...tasks.value];
-  updated[index] = { ...updated[index], percentage: value }
+  updated[index] = { ...updated[index], percentage: value } as Task;
   tasks.value = updated
 }
 defineExpose({ updateComplete });
